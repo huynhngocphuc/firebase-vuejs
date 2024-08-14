@@ -41,4 +41,13 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'edit-car',
+        path: '/cars/editCar/:id',
+        component: resolve(__dirname, 'pages/cars/editCar.vue')
+      });
+    }
+  }
 }

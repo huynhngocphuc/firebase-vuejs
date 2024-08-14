@@ -15,7 +15,7 @@ export default {
   middleware: "auth",
   computed: {},
   methods: {
-    ...mapActions("modules/auth", ["logout"]),
+    ...mapActions("auth", ["logout"]),
     handlerLogout() {
       this.logout()
         .then(() => {

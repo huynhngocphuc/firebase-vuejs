@@ -28,7 +28,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("modules/auth", ["login"]),
+    ...mapActions("auth", ["login"]),
     handlerLogin() {
       // Simulate login logic
       if (this.username === "admin" && this.password === "12345") {

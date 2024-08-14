@@ -1,5 +1,5 @@
 export default function ({ store, redirect }) {
-  const { isAuthenticated } = store.state.modules.auth;
+  const { isAuthenticated } = store.state.auth;
   console.log("🚀 ~ middleware auth running ...:")
   
   if (!isAuthenticated) {
