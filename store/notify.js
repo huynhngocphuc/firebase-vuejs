@@ -4,12 +4,36 @@ export const state = () => ({
       content: "New car has been added to the inventory",
       time: "12:00 PM",
       isRead: false,
-      idCar: "hf0WUKgosr8y5U4pBGN7",
+      idCar: "LmnDi9Wx13gS24UelvIX",
+    },
+    {
+      content: "New car has been added to the inventory",
+      time: "12:00 PM",
+      isRead: false,
+      idCar: "LmnDi9Wx13gS24UelvIX",
+    },
+    {
+      content: "New car has been added to the inventory",
+      time: "12:00 PM",
+      isRead: false,
+      idCar: "LmnDi9Wx13gS24UelvIX",
+    },
+    {
+      content: "New car has been added to the inventory",
+      time: "12:00 PM",
+      isRead: false,
+      idCar: "LmnDi9Wx13gS24UelvIX",
     },
   ],
 });
 
-export const getters = {};
+export const getters = {
+  allNotifications: (state) => state.notifications,
+  unreadNotifications: (state) =>
+    state.notifications.filter((notification) =>!notification.isRead),
+  getNotificationById: (state) => (id) =>
+    state.notifications.find((notification) => notification.idCar === id),
+};
 
 export const mutations = {
   ADD_NOTIFICATION(state, notification) {

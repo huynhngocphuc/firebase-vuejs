@@ -10,7 +10,20 @@
         <button @click="toggleModal">Notifications</button>
         <span class="badge">10</span>
         <div v-if="isModalVisible" class="modal-content">
-          <h2>Notifications</h2>
+          <p>Notifications</p>
+          <div
+            class="notify-item_layout"
+            v-for="(notification, index) in allNotifications"
+            :key="index"
+          >
+            <div class="notify-item_content">
+              <nuxt-link :to="`/cars/${notification.idCar}`">
+                {{ notification.content }}
+                <span>{{ notification.time }}</span>
+              </nuxt-link>
+            </div>
+          </div>
+          <!-- <h1>{{allNotifications}}</h1> -->
         </div>
       </div>
       <nuxt-link class="nav-link" to="/auth/login">Login</nuxt-link>
@@ -19,11 +32,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       isGoBack: false,
-      isModalVisible: true,
+      isModalVisible: false,
     };
   },
   methods: {
@@ -33,6 +48,9 @@ export default {
     toggleModal() {
       this.isModalVisible = !this.isModalVisible;
     },
+  },
+  computed: {
+    ...mapGetters("notify", ["allNotifications"]),
   },
 };
 </script>
@@ -83,25 +101,26 @@ export default {
   text-align: center;
   padding: 2px 5px;
 }
-/* .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 .modal-content {
   position: absolute;
   background: white;
-  padding: 20px;
   border-radius: 8px;
   width: 400px;
-  max-height: 80vh;
   top: 17px;
   right: 30px;
+  display: block;
+  padding: 2px
+}
+.notify-item_layout {
+  background-color: #ccc;
+  height: 30px;
+  margin-bottom: 5px;
+  align-items: center;
+  display: flex;
+  border-radius:2px;
+  border: 1px solid #000;
+}
+.notify-item_content {
+  padding: 0 10px;
 }
 </style>

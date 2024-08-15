@@ -29,17 +29,6 @@
           </tr>
         </tbody>
       </table>
-      <!-- <ul>
-        <li v-for="car in allCars" :key="car.id">
-          {{ car.id }}
-          {{ car.name }}
-          {{ car.price }}
-          <button @click="removeCar(car.id)">Remove</button>
-          <button>
-            <nuxt-link :to="`/cars/editCar/${car.id}`"> Update </nuxt-link>
-          </button>
-        </li>
-      </ul> -->
     </div>
   </div>
 </template>

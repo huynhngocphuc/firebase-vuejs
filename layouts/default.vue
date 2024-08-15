@@ -16,7 +16,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .layout-content {
   background-color: antiquewhite;
   height: 100vh;

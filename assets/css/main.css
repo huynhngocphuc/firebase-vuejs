@@ -14,3 +14,45 @@ a {
 .btn-primary:hover {
   cursor: pointer;
 }
+
+.container-content{
+  display: flex;
+  justify-content: center;
+}
+.layout-content{
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+}
+.layout-input{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.label-input {
+
+}
+.input-content{
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid #000;
+}
+
+input:focus {
+  border: 1px solid #000;
+  outline: none; 
+  border-radius: 5px;/* Bỏ outline mặc định của trình duyệt (nếu có) */
+}
+
+.layout-img {
+  width: 300px; /* Chiều rộng cố định của phần tử chứa */
+  height: 200px; /* Chiều cao cố định của phần tử chứa */
+  overflow: hidden; /* Ẩn phần hình ảnh vượt ra ngoài phần tử chứa */
+  border: 1px solid #ddd; 
+}
+.layout-img img { 
+  width: 100%; /* Chiều rộng 100% của phần tử chứa */
+  height: 100%; /* Chiều cao 100% của phần tử chứa */
+  object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
+  display: block; /* Loại bỏ khoảng trắng dưới hình ảnh */
+}
