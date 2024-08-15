@@ -1,21 +1,33 @@
 <template>
   <div>
-    <h1>page</h1>
+    <h1>Home page</h1>
+    <button>
+      <nuxt-link to="/cars">List Cars</nuxt-link>
+    </button>
+    <button @click="handlerLogout">logout</button>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Navbar from '../components/Navbar.vue'
-import Layout from '../layouts/default.vue'
-
+console.log("🚀 ~ dashboard running....");
+import { mapActions } from "vuex";
 export default {
-  name: 'IndexPage',
-  components:{
-    Layout
+  middleware: "auth",
+  computed: {},
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    handlerLogout() {
+      this.logout()
+        .then(() => {
+          this.$router.push({ path: "/" });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
-  computed: {
-    ...mapState('auth',['user'])
-  }
-}
+};
 </script>
+
+<style>
+</style>

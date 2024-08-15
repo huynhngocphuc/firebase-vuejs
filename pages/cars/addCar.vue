@@ -35,8 +35,7 @@ export default {
     ...mapActions("cars", ["addCar"]),
     submitForm() {
       this.car;
-      this.addCar({ id: Date.now().toString(), ...this.car });
-      console.log("🚀 ~ submitForm ~  this.car:", this.car);
+      this.addCar({...this.car});
     },
   },
 };

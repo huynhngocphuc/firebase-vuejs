@@ -1,19 +1,26 @@
 <template>
   <div>
-    <Navbar/>
-    <Nuxt />
+    <Navbar />
+    <div class="layout-content">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue';
+import Navbar from "../components/Navbar.vue";
 export default {
-    components:{
-        Navbar
-    }
-}
+  components: {
+    Navbar,
+  },
+};
 </script>
 
 <style>
-
+.layout-content {
+  background-color: antiquewhite;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 </style>
