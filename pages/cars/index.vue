@@ -2,8 +2,7 @@
   <div class="list-cars">
     <h1>List car</h1>
     <button class="btn-primary">
-        <nuxt-link to="/cars/addCar">Add new Car</nuxt-link>
-    
+      <nuxt-link to="/cars/addCar">Add new Car</nuxt-link>
     </button>
     <div class="cars-container">
       <table>
@@ -12,14 +11,25 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
+            <th>image</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="car in allCars" :key="car.id">
+          <tr
+            v-for="car in allCars"
+            :key="car.id"
+            class="item-car"
+            @click="handleRedirect(car.id)"
+          >
             <td>{{ car.id }}</td>
             <td>{{ car.name }}</td>
             <td>{{ car.price }}</td>
+            <td>
+              <div class="layout-img small-image">
+                <img class="image-content" :src="car.image" alt="car-image" />
+              </div>
+            </td>
             <td>
               <button @click="removeCar(car.id)">Remove</button>
               <button>
@@ -38,6 +48,7 @@ import { mapActions, mapGetters } from "vuex";
 
 // console.log("🚀 ~ this.allCars:", allCars)
 export default {
+  middleware: "auth",
   asyncData({ store }) {
     store.dispatch("cars/fetchCars");
   },
@@ -46,6 +57,10 @@ export default {
   },
   methods: {
     ...mapActions("cars", ["fetchCars", "removeCar", "updateCar"]),
+    handleRedirect(idCar) {
+      this.$router.push(`/cars/${idCar}`);
+      // this.toggleModal();
+    },
   },
 };
 </script>
@@ -70,5 +85,8 @@ td {
 
 th {
   background-color: #f4f4f4;
+}
+.item-car:hover {
+  cursor: pointer !important;
 }
 </style>

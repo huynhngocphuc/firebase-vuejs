@@ -15,7 +15,6 @@ export const state = () => ({
 
 export const getters = {
   allCars: (state) => state.cars,
-
   carById: (state) => (id) => {
     return state.cars.find((car) => car.id === id);
   },
@@ -47,37 +46,74 @@ export const actions = {
       // doc.data() is never undefined for query doc snapshots
       return { id: doc.id, ...doc.data() };
     });
-    console.log("🚀 ~ fetchCars ~ LIST_CARS:", data);
     commit("SET_CARS", data);
   },
   async fetchCarById({ commit }, carId) {
     commit("SET_CAR", car);
   },
-  async addCar({ commit }, car) {
+  async addCar({ commit, dispatch }, car) {
     // Gửi yêu cầu thêm xe mới
     try {
+      // add firebase
       const docRef = await addDoc(collection(db, "cars"), car);
       const newCar = { id: docRef.id, ...car };
+      // add Notification
+      await dispatch(
+        "notify/addNotification",
+        { content: "New Car", time: Date.now(), idCar: docRef.id },
+        { root: true }
+      );
+      // update state
       commit("ADD_CAR", newCar);
+      await window.alert("Added car successfully");
     } catch (error) {
       console.log("🚀 ~ addCar ~ error:", error);
     }
   },
-  async removeCar({ commit }, carId) {
-    // Gửi yêu cầu xóa xe
+  async removeCar({ commit, dispatch }, carId) {
     try {
-      await deleteDoc(doc(db, "cars", carId));
-      commit("REMOVE_CAR", carId);
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this task?"
+      );
+      if (confirmed) {
+        // delete firebase
+        await deleteDoc(doc(db, "cars", carId));
+
+        // add notification
+        await dispatch(
+          "notify/addNotification",
+          {
+            content: "Delete car",
+            time: Date.now(),
+            idCar: carId,
+          },
+          { root: true }
+        );
+        // update state
+        commit("REMOVE_CAR", carId);
+      }
     } catch (error) {
       console.log("🚀 ~ removeCar ~ error:", error);
     }
   },
-  async updateCar({ commit }, updatedCar) {
-    // Gửi yêu cầu cập nhật xe
+  async updateCar({ commit, dispatch }, updatedCar) {
     try {
+      // update firebase
       const carRef = doc(db, "cars", updatedCar.id);
       await updateDoc(carRef, updatedCar);
+
+      // add Notification
+      await dispatch(
+        "notify/addNotification",
+        {
+          content: "Update car",
+          time: Date.now(),
+          idCar: updatedCar.id,
+        },
+        { root: true }
+      );
       commit("UPDATE_CAR", updatedCar);
+      await window.alert("Updated car successfully");
     } catch (error) {
       console.log("🚀 ~ updateCar ~ error:", error);
     }

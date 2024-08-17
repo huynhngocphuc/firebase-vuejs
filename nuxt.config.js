@@ -50,6 +50,7 @@ export default {
         path: '/cars/editCar/:id',
         component: resolve(__dirname, 'pages/cars/editCar.vue')
       });
-    }
+    },
+     base: '/'
   }
 }

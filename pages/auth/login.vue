@@ -10,7 +10,7 @@
       </div>
       <div>
         <label>password</label>
-        <input type="password" v-model="password" />
+        <input type="password" v-model="password" @keyup.enter="handlerLogin"/>
       </div>
       <button class="btn-primary" @click="handlerLogin">Login</button>
     </div>
@@ -36,7 +36,7 @@ export default {
       // Simulate login logic
       if (this.username === "admin" && this.password === "12345") {
         this.login({ username: this.username, password: this.password });
-        this.$router.push("/dashboard");
+        this.$router.push("/");
       } else {
         alert("Invalid credentials");
       }

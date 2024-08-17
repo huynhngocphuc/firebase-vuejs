@@ -41,7 +41,7 @@ a {
 input:focus {
   border: 1px solid #000;
   outline: none; 
-  border-radius: 5px;/* Bỏ outline mặc định của trình duyệt (nếu có) */
+  border-radius: 1px;/* Bỏ outline mặc định của trình duyệt (nếu có) */
 }
 
 .layout-img {
@@ -55,4 +55,9 @@ input:focus {
   height: 100%; /* Chiều cao 100% của phần tử chứa */
   object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
   display: block; /* Loại bỏ khoảng trắng dưới hình ảnh */
+}
+
+.small-image {
+  width: 100px; /* Chiều rộng cố định của phần tử chứa */
+  height: 50px; 
 }

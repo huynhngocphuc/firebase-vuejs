@@ -2,7 +2,7 @@ export const state = () => ({
   user: null,
   token: null,
   error: "",
-  isAuthenticated: true,
+  isAuthenticated: false,
   loading: false,
 });
 export const mutations = {
@@ -24,8 +24,11 @@ export const mutations = {
 };
 
 export const actions = {
-  login({ commit }, payload) {
+  async login({ commit ,dispatch}, payload) {
+    commit("setUser", payload);
     commit("setIsAuthenticated", true);
+    await dispatch("notify/fetchNotification", payload,{ root: true });
+    await dispatch("cars/fetchCars", payload,{ root: true });
   },
   logout({ commit }) {
     commit("setUser", null);
@@ -33,7 +36,7 @@ export const actions = {
     commit("setIsAuthenticated", false);
     commit("setError", "");
     commit("setLoading", false);
-  }
+  },
 };
 
 export const getters = {

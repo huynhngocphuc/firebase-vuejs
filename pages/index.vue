@@ -4,15 +4,13 @@
     <button>
       <nuxt-link to="/cars">List Cars</nuxt-link>
     </button>
-    <button @click="handlerLogout">logout</button>
+    <button v-if="isAuthenticated" @click="handlerLogout">logout</button>
   </div>
 </template>
 
 <script>
-console.log("🚀 ~ dashboard running....");
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  middleware: "auth",
   computed: {},
   methods: {
     ...mapActions("auth", ["logout"]),
@@ -25,6 +23,9 @@ export default {
           console.error(error);
         });
     },
+  },
+  computed: {
+    ...mapGetters("auth", ["user", "isAuthenticated"]),
   },
 };
 </script>

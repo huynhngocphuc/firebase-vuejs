@@ -1,36 +1,22 @@
+import { db } from "~/plugins/firebase";
+import {
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+export const namespaced = true;
 export const state = () => ({
-  notifications: [
-    {
-      content: "New car has been added to the inventory",
-      time: "12:00 PM",
-      isRead: false,
-      idCar: "LmnDi9Wx13gS24UelvIX",
-    },
-    {
-      content: "New car has been added to the inventory",
-      time: "12:00 PM",
-      isRead: false,
-      idCar: "LmnDi9Wx13gS24UelvIX",
-    },
-    {
-      content: "New car has been added to the inventory",
-      time: "12:00 PM",
-      isRead: false,
-      idCar: "LmnDi9Wx13gS24UelvIX",
-    },
-    {
-      content: "New car has been added to the inventory",
-      time: "12:00 PM",
-      isRead: false,
-      idCar: "LmnDi9Wx13gS24UelvIX",
-    },
-  ],
+  notifications: [],
+  isShowNotifications: false,
 });
 
 export const getters = {
   allNotifications: (state) => state.notifications,
   unreadNotifications: (state) =>
-    state.notifications.filter((notification) =>!notification.isRead),
+    state.notifications.filter((notification) => !notification.isRead),
   getNotificationById: (state) => (id) =>
     state.notifications.find((notification) => notification.idCar === id),
 };
@@ -42,11 +28,27 @@ export const mutations = {
   REMOVE_NOTIFICATION(state, index) {
     state.notifications.splice(index, 1);
   },
+  SET_NOTIFICATION(state, notifications) {
+    state.notifications = notifications;
+  },
 };
 
 export const actions = {
-  addNotification({ commit }, notification) {
-    commit("ADD_NOTIFICATION", notification);
+  async fetchNotification({ commit }) {
+    try {
+      const querySnapshot = await getDocs(collection(db, "notify"));
+      const data = querySnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      commit("SET_NOTIFICATION", data);
+    } catch (error) {
+      console.log("🚀 ~ fetchNotification ~ error:", error);
+    }
+  },
+  async addNotification({ commit }, notification) {
+    // add firebase
+    const docRef = await addDoc(collection(db, "notify"), notification);
+    commit("ADD_NOTIFICATION", { id: docRef.id, ...notification });
   },
   removeNotification({ commit }, index) {
     commit("REMOVE_NOTIFICATION", index);
