@@ -29,6 +29,7 @@ export const actions = {
     commit("setIsAuthenticated", true);
     await dispatch("notify/fetchNotification", payload,{ root: true });
     await dispatch("cars/fetchCars", payload,{ root: true });
+    await dispatch("saveUserLocalStorage", payload);
   },
   logout({ commit }) {
     commit("setUser", null);
@@ -36,6 +37,16 @@ export const actions = {
     commit("setIsAuthenticated", false);
     commit("setError", "");
     commit("setLoading", false);
+  },
+  saveUserLocalStorage({},user) {
+    localStorage.setItem("user", JSON.stringify(user));
+  },
+  getUserLocalStorage({ commit }) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      commit("setUser", user);
+      commit("setIsAuthenticated", true);
+    }
   },
 };
 

@@ -1,6 +1,7 @@
 <template>
   <div class="list-cars">
     <h1>List car</h1>
+    <h1>{{isLoading}}</h1>
     <button class="btn-primary">
       <nuxt-link to="/cars/addCar">Add new Car</nuxt-link>
     </button>
@@ -54,6 +55,8 @@ export default {
   },
   computed: {
     ...mapGetters("cars", ["allCars"]),
+    ...mapGetters("loading", ["isLoading"]),
+
   },
   methods: {
     ...mapActions("cars", ["fetchCars", "removeCar", "updateCar"]),

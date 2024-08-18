@@ -39,14 +39,29 @@ export const mutations = {
 };
 
 export const actions = {
-  async fetchCars({ commit }) {
+  async fetchCars({ commit, dispatch }) {
+    console.log("🚀 ~ fetchCars ~ fetchCars:");
+    dispatch("loading/startLoading", {}, { root: true });
     // Giả sử bạn có một API để lấy danh sách xe
-    const querySnapshot = await getDocs(collection(db, "cars"));
-    const data = querySnapshot.docs.map((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      return { id: doc.id, ...doc.data() };
-    });
-    commit("SET_CARS", data);
+    try {
+      const timeout = new Promise((resolve) => setTimeout(resolve, 5000)); 
+    
+      const querySnapshot = await getDocs(collection(db, "cars"));
+      const data = querySnapshot.docs.map((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        return { id: doc.id, ...doc.data() };
+      });
+      commit("SET_CARS", data);
+
+      await Promise.all([querySnapshot, timeout]);
+      
+      dispatch("loading/stopLoading", {}, { root: true });
+      // Lấy danh sách xe từ Firestore
+    } catch (error) {
+      console.log("🚀 ~ fetchCars ~ error:", error);
+    } finally {
+      // await dispatch("loading/stopLoading", {}, { root: true });
+    }
   },
   async fetchCarById({ commit }, carId) {
     commit("SET_CAR", car);
