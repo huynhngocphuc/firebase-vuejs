@@ -1,7 +1,6 @@
 <template>
   <div class="list-cars">
     <h1>List car</h1>
-    <h1>{{isLoading}}</h1>
     <button class="btn-primary">
       <nuxt-link to="/cars/addCar">Add new Car</nuxt-link>
     </button>
@@ -33,22 +32,26 @@
             </td>
             <td>
               <button @click="removeCar(car.id)">Remove</button>
-              <button>
-                <nuxt-link :to="`/cars/editCar/${car.id}`"> Update </nuxt-link>
+              <button @click.stop="handleUpdateCar(car.id)">
+               Update <!-- <nuxt-link :to="`/cars/editCar/${car.id}`"> Update </nuxt-link> -->
               </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <Modal :show="isOpenModalEdit" @close="toggleModalEdit">
+      <EditForm />
+    </Modal>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
-// console.log("🚀 ~ this.allCars:", allCars)
+import Modal from "~/components/Modal.vue";
+import EditForm from "./components/edit.vue";
 export default {
+  components: { Modal, EditForm },
   middleware: "auth",
   asyncData({ store }) {
     store.dispatch("cars/fetchCars");
@@ -56,13 +59,19 @@ export default {
   computed: {
     ...mapGetters("cars", ["allCars"]),
     ...mapGetters("loading", ["isLoading"]),
-
+    ...mapGetters("cars/editCar", ["isOpenModalEdit"]),
   },
   methods: {
     ...mapActions("cars", ["fetchCars", "removeCar", "updateCar"]),
+    ...mapActions("cars/editCar", ["toggleModalEdit", "setSelectedCar"]),
+
     handleRedirect(idCar) {
       this.$router.push(`/cars/${idCar}`);
       // this.toggleModal();
+    },
+    handleUpdateCar(idCar) {
+      this.toggleModalEdit();
+      this.setSelectedCar(idCar);
     },
   },
 };

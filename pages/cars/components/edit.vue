@@ -37,15 +37,13 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapActions } from "vuex";
+  
+  <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   middleware: "auth",
-  asyncData({ params, store }) {
-    const carId = params.id;
-    const car = { ...store.getters["cars/carById"](carId) };
-    return { car };
+  created() {
+    this.car = { ...this.selectedCar };
   },
   data() {
     return {
@@ -57,16 +55,14 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters("cars/editCar", ["selectedCar"]),
+  },
   methods: {
     ...mapActions("cars", ["updateCar"]),
     handlerUpdateCar() {
-      console.log("🚀 ~ click updateCar ~ updateCar:", this.car);
-
       this.updateCar(this.car);
     },
   },
 };
 </script>
-
-<style>
-</style>

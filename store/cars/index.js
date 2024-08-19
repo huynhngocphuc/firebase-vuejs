@@ -1,4 +1,3 @@
-import { LIST_CARS } from "../constant/dummy";
 import { db } from "~/plugins/firebase";
 import {
   doc,
@@ -40,12 +39,11 @@ export const mutations = {
 
 export const actions = {
   async fetchCars({ commit, dispatch }) {
-    console.log("🚀 ~ fetchCars ~ fetchCars:");
     dispatch("loading/startLoading", {}, { root: true });
     // Giả sử bạn có một API để lấy danh sách xe
     try {
-      const timeout = new Promise((resolve) => setTimeout(resolve, 5000)); 
-    
+      // const timeout = new Promise((resolve) => setTimeout(resolve, 1000));
+
       const querySnapshot = await getDocs(collection(db, "cars"));
       const data = querySnapshot.docs.map((doc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -53,12 +51,11 @@ export const actions = {
       });
       commit("SET_CARS", data);
 
-      await Promise.all([querySnapshot, timeout]);
-      
+      await Promise.all([querySnapshot]);
+
       dispatch("loading/stopLoading", {}, { root: true });
       // Lấy danh sách xe từ Firestore
     } catch (error) {
-      console.log("🚀 ~ fetchCars ~ error:", error);
     } finally {
       // await dispatch("loading/stopLoading", {}, { root: true });
     }
@@ -81,9 +78,7 @@ export const actions = {
       // update state
       commit("ADD_CAR", newCar);
       await window.alert("Added car successfully");
-    } catch (error) {
-      console.log("🚀 ~ addCar ~ error:", error);
-    }
+    } catch (error) {}
   },
   async removeCar({ commit, dispatch }, carId) {
     try {
@@ -107,9 +102,7 @@ export const actions = {
         // update state
         commit("REMOVE_CAR", carId);
       }
-    } catch (error) {
-      console.log("🚀 ~ removeCar ~ error:", error);
-    }
+    } catch (error) {}
   },
   async updateCar({ commit, dispatch }, updatedCar) {
     try {
@@ -129,8 +122,6 @@ export const actions = {
       );
       commit("UPDATE_CAR", updatedCar);
       await window.alert("Updated car successfully");
-    } catch (error) {
-      console.log("🚀 ~ updateCar ~ error:", error);
-    }
+    } catch (error) {}
   },
 };

@@ -24,12 +24,11 @@ export const mutations = {
 };
 
 export const actions = {
-  async login({ commit ,dispatch}, payload) {
+  async login({ commit, dispatch }, payload) {
     commit("setUser", payload);
     commit("setIsAuthenticated", true);
-    await dispatch("notify/fetchNotification", payload,{ root: true });
-    await dispatch("cars/fetchCars", payload,{ root: true });
     await dispatch("saveUserLocalStorage", payload);
+    await dispatch("fetchInitData");
   },
   logout({ commit }) {
     commit("setUser", null);
@@ -37,16 +36,22 @@ export const actions = {
     commit("setIsAuthenticated", false);
     commit("setError", "");
     commit("setLoading", false);
+    localStorage.clear();
   },
-  saveUserLocalStorage({},user) {
+  saveUserLocalStorage({}, user) {
     localStorage.setItem("user", JSON.stringify(user));
   },
-  getUserLocalStorage({ commit }) {
+  getUserLocalStorage({ commit,dispatch }) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       commit("setUser", user);
       commit("setIsAuthenticated", true);
+      dispatch("fetchInitData",user);
     }
+  },
+  async fetchInitData({ dispatch }, payload) {
+    await dispatch("notify/fetchNotification", payload, { root: true });
+    await dispatch("cars/fetchCars", payload, { root: true });
   },
 };
 

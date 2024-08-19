@@ -33,12 +33,10 @@ export default {
   },
   methods: {
     toggleModal() {
-      console.log("🚀 ~ toggleModal ~ toggleModal:");
-
       this.isModalVisible = !this.isModalVisible;
     },
     handleRedirect(idCar) {
-      this.$router.push(`/${idCar}`);
+      this.$router.push(`/cars/${idCar}`);
       // this.toggleModal();
     },
   },
@@ -46,6 +44,9 @@ export default {
     ...mapGetters("notify", ["allNotifications"]),
     ...mapGetters("auth", ["user", "isAuthenticated"]),
   },
+  watch:{
+    
+  }
 };
 </script>
 

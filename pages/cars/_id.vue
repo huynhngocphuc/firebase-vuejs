@@ -32,7 +32,6 @@ export default {
   middleware: "auth",
   asyncData({ params, store }) {
     const carId = params.id;
-    console.log("🚀 ~ asyncData ~ carId:", carId)
     const car = { ...store.getters["cars/carById"](carId) };
     return { car };
   },

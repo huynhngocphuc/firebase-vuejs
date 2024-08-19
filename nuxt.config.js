@@ -45,11 +45,7 @@ export default {
   },
   router: {
     extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'edit-car',
-        path: '/cars/editCar/:id',
-        component: resolve(__dirname, 'pages/cars/editCar.vue')
-      });
+     
     },
      base: '/'
   }
