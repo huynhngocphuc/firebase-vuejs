@@ -1,8 +1,8 @@
 <template>
   <div class="list-cars">
     <h1>List car</h1>
-    <button class="btn-primary">
-      <nuxt-link to="/cars/addCar">Add new Car</nuxt-link>
+    <button class="btn-primary" @click.stop="handleAddCar">
+      Add new Car
     </button>
     <div class="cars-container">
       <table>
@@ -31,9 +31,10 @@
               </div>
             </td>
             <td>
-              <button @click="removeCar(car.id)">Remove</button>
+              <button @click.stop="removeCar(car.id)">Remove</button>
               <button @click.stop="handleUpdateCar(car.id)">
-               Update <!-- <nuxt-link :to="`/cars/editCar/${car.id}`"> Update </nuxt-link> -->
+                Update
+                <!-- <nuxt-link :to="`/cars/editCar/${car.id}`"> Update </nuxt-link> -->
               </button>
             </td>
           </tr>
@@ -43,6 +44,9 @@
     <Modal :show="isOpenModalEdit" @close="toggleModalEdit">
       <EditForm />
     </Modal>
+    <Modal :show="isOpenModalAdd" @close="toggleModalAdd">
+      <AddForm />
+    </Modal>
   </div>
 </template>
 
@@ -50,20 +54,24 @@
 import { mapActions, mapGetters } from "vuex";
 import Modal from "~/components/Modal.vue";
 import EditForm from "./components/edit.vue";
+import AddForm from "./components/add.vue";
 export default {
-  components: { Modal, EditForm },
+  components: { Modal, EditForm, AddForm },
   middleware: "auth",
   asyncData({ store }) {
     store.dispatch("cars/fetchCars");
   },
+
   computed: {
     ...mapGetters("cars", ["allCars"]),
     ...mapGetters("loading", ["isLoading"]),
     ...mapGetters("cars/editCar", ["isOpenModalEdit"]),
+    ...mapGetters("cars/addCar", ["isOpenModalAdd"]),
   },
   methods: {
     ...mapActions("cars", ["fetchCars", "removeCar", "updateCar"]),
     ...mapActions("cars/editCar", ["toggleModalEdit", "setSelectedCar"]),
+    ...mapActions("cars/addCar", ["toggleModalAdd"]),
 
     handleRedirect(idCar) {
       this.$router.push(`/cars/${idCar}`);
@@ -72,6 +80,9 @@ export default {
     handleUpdateCar(idCar) {
       this.toggleModalEdit();
       this.setSelectedCar(idCar);
+    },
+    handleAddCar() {
+      this.toggleModalAdd();
     },
   },
 };

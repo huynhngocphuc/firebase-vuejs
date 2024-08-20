@@ -1,6 +1,5 @@
 <template>
   <div class="overlay" v-if="isLoading">
-    
     <div class="loader"></div>
   </div>
 </template>

@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-  </template>
+</template>
   
   <script>
   export default {
@@ -16,7 +16,6 @@
         type: Boolean,
         default: false,
       },
-
     },
     methods: {
       close() {

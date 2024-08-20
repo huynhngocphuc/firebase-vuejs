@@ -38,7 +38,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import { mapActions, mapGetters } from "vuex";
 export default {
   middleware: "auth",
@@ -61,7 +61,7 @@ export default {
   methods: {
     ...mapActions("cars", ["updateCar"]),
     handlerUpdateCar() {
-      this.updateCar(this.car);
+      this.updateCar({...this.car});
     },
   },
 };

@@ -25,10 +25,12 @@ export const mutations = {
 
 export const actions = {
   async login({ commit, dispatch }, payload) {
+    dispatch("loading/startLoading", {}, { root: true });
     commit("setUser", payload);
     commit("setIsAuthenticated", true);
     await dispatch("saveUserLocalStorage", payload);
     await dispatch("fetchInitData");
+    dispatch("loading/stopLoading", {}, { root: true });
   },
   logout({ commit }) {
     commit("setUser", null);

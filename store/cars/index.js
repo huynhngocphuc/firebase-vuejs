@@ -42,7 +42,7 @@ export const actions = {
     dispatch("loading/startLoading", {}, { root: true });
     // Giả sử bạn có một API để lấy danh sách xe
     try {
-      // const timeout = new Promise((resolve) => setTimeout(resolve, 1000));
+      const timeout = new Promise((resolve) => setTimeout(resolve, 500));
 
       const querySnapshot = await getDocs(collection(db, "cars"));
       const data = querySnapshot.docs.map((doc) => {
@@ -51,13 +51,10 @@ export const actions = {
       });
       commit("SET_CARS", data);
 
-      await Promise.all([querySnapshot]);
-
-      dispatch("loading/stopLoading", {}, { root: true });
-      // Lấy danh sách xe từ Firestore
+      await Promise.all([querySnapshot, timeout]);
     } catch (error) {
     } finally {
-      // await dispatch("loading/stopLoading", {}, { root: true });
+      await dispatch("loading/stopLoading", {}, { root: true });
     }
   },
   async fetchCarById({ commit }, carId) {
@@ -67,6 +64,7 @@ export const actions = {
     // Gửi yêu cầu thêm xe mới
     try {
       // add firebase
+      dispatch("loading/startLoading", {}, { root: true });
       const docRef = await addDoc(collection(db, "cars"), car);
       const newCar = { id: docRef.id, ...car };
       // add Notification
@@ -78,9 +76,15 @@ export const actions = {
       // update state
       commit("ADD_CAR", newCar);
       await window.alert("Added car successfully");
-    } catch (error) {}
+      await dispatch("addCar/toggleModalAdd", { root: true });
+    } catch (error) {
+    } finally {
+      dispatch("loading/stopLoading", {}, { root: true });
+    }
   },
   async removeCar({ commit, dispatch }, carId) {
+    dispatch("loading/startLoading", {}, { root: true });
+
     try {
       const confirmed = window.confirm(
         "Are you sure you want to delete this task?"
@@ -102,9 +106,13 @@ export const actions = {
         // update state
         commit("REMOVE_CAR", carId);
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      dispatch("loading/stopLoading", {}, { root: true });
+    }
   },
   async updateCar({ commit, dispatch }, updatedCar) {
+    dispatch("loading/startLoading", {}, { root: true });
     try {
       // update firebase
       const carRef = doc(db, "cars", updatedCar.id);
@@ -122,6 +130,12 @@ export const actions = {
       );
       commit("UPDATE_CAR", updatedCar);
       await window.alert("Updated car successfully");
-    } catch (error) {}
+      await dispatch("editCar/toggleModalEdit", { root: true });
+
+    } catch (error) {
+      console.log("🚀 ~ updateCar ~ error:", error);
+    } finally {
+      dispatch("loading/stopLoading", {}, { root: true });
+    }
   },
 };
