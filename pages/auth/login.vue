@@ -2,26 +2,22 @@
   <div class="login-container">
     <div class="login-layout">
       <h1>Login your account</h1>
-      <div class="form-login">
-    </div>
+      <div class="form-login"></div>
       <div>
         <label>username</label>
         <input type="text" v-model="username" />
       </div>
       <div>
         <label>password</label>
-        <input type="password" v-model="password" @keyup.enter="handlerLogin"/>
+        <input type="password" v-model="password" @keyup.enter="handlerLogin" />
       </div>
       <button class="btn-primary" @click="handlerLogin">Login</button>
     </div>
-
-    
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-
 
 export default {
   data() {
@@ -41,24 +37,22 @@ export default {
         alert("Invalid credentials");
       }
     },
-  },
+  }
 };
 </script>
 
 <style scoped>
-
-.login-container{
-display: block;
-text-align: center;
-
+.login-container {
+  display: block;
+  text-align: center;
 }
-.login-layout{
+.login-layout {
   display: inline-block;
   border: 1px solid black;
-  border-radius:10px ;
+  border-radius: 10px;
   margin: 20px;
 }
-.btn-primary{
+.btn-primary {
   margin: 10px;
   padding: 5px;
   border-radius: 5px;

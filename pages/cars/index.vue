@@ -1,9 +1,7 @@
 <template>
   <div class="list-cars">
     <h1>List car</h1>
-    <button class="btn-primary" @click.stop="handleAddCar">
-      Add new Car
-    </button>
+    <button class="btn-primary" @click.stop="handleAddCar">Add new Car</button>
     <div class="cars-container">
       <table>
         <thead>
@@ -44,9 +42,13 @@
     <Modal :show="isOpenModalEdit" @close="toggleModalEdit">
       <EditForm />
     </Modal>
-    <Modal :show="isOpenModalAdd" @close="toggleModalAdd">
-      <AddForm />
-    </Modal>
+    <keep-alive>
+      <Modal :show="isOpenModalAdd" @close="toggleModalAdd">
+        <keep-alive>
+          <AddForm />
+        </keep-alive>
+      </Modal>
+    </keep-alive>
   </div>
 </template>
 
@@ -56,12 +58,14 @@ import Modal from "~/components/Modal.vue";
 import EditForm from "./components/edit.vue";
 import AddForm from "./components/add.vue";
 export default {
+  layout({ store }) {
+    return false ? "userLayout" : "adminLayout";
+  },
   components: { Modal, EditForm, AddForm },
   middleware: "auth",
   asyncData({ store }) {
     store.dispatch("cars/fetchCars");
   },
-
   computed: {
     ...mapGetters("cars", ["allCars"]),
     ...mapGetters("loading", ["isLoading"]),
@@ -84,6 +88,11 @@ export default {
     handleAddCar() {
       this.toggleModalAdd();
     },
+  },
+  data() {
+    return {
+      currentModal: "AddForm",
+    };
   },
 };
 </script>
