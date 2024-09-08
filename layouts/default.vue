@@ -1,11 +1,13 @@
 <template>
   <div>
-    <HeaderContainer />
+    <!-- <HeaderContainer /> -->
     <!-- <Navbar />
     <div class="layout-content">
       <Nuxt />
     </div>
     <Loading /> -->
+    <LineChart />
+
   </div>
 </template>
 
@@ -14,11 +16,13 @@ import Navbar from "../components/Navbar.vue";
 import HeaderContainer from "../components/Header.vue";
 import Loading from "../components/Loading.vue";
 import { mapActions } from "vuex";
+import LineChart  from "../components/ChartTest.vue"
 export default {
   components: {
     Navbar,
     Loading,
-    HeaderContainer
+    HeaderContainer,
+    LineChart 
   },
   created() {
     this.getUserLocalStorage();
